@@ -9,11 +9,21 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let myName = "Denis"
+    var firstName = "Denis"
+    var secondName = "Raiko"
+    
+    var fullName: String {
+        firstName + secondName
+    }
+    
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("View did load")
+    
+        print(fullName)
+        
     }
 
 
