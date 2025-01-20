@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Меня зовут \(myName), я создал свое первое приложение")
+        print("View did load")
     }
 
 
