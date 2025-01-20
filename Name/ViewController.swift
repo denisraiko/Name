@@ -9,10 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-
+    let myName = "Denis"
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("Меня зовут \(myName), я создал свое первое приложение")
     }
 
 
