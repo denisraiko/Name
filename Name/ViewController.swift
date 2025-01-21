@@ -9,19 +9,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var firstName = "Denis"
-    var secondName = "Raiko"
-    
-    var fullName: String {
-        firstName + secondName
-    }
-    
-   
+    let person = Person()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
+        let fullName = person.fullName
+
         print(fullName)
         
     }
