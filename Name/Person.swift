@@ -7,11 +7,24 @@
 
 import Foundation
 
-class Person {
-    var firstName = "Denis"
-    var secondName = "Raiko"
+protocol personProtocol {
+    var people: [String] { get }
+    func addPeople(_ people: [String])
+    func getPeople() -> [String]
+
+}
+
+public class Person: personProtocol {
+    var people: [String] = []
     
-    var fullName: String {
-        firstName + secondName
+    func addPeople(_ people: [String]) {
+        self.people.append(contentsOf: people)
     }
+    
+    func getPeople() -> [String] {
+        self.people
+    }
+    
+    
+    
 }

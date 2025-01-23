@@ -7,8 +7,15 @@
 
 import Foundation
 
-class Helper {
-    private var numbers: [Int] = []
+protocol helperProtocol {
+    var numbers: [Int] { get }
+    
+    func addNumber(_ number: Int)
+    func getNumbers() -> [Int]
+}
+
+public class Helper: helperProtocol {
+    var numbers: [Int] = []
     
     func addNumber(_ number: Int) {
         numbers.append(number)
