@@ -10,34 +10,20 @@ import UIKit
 class ViewController: UIViewController {
     
     private let helper = Helper()
-    private let people = Person()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        updateNumbers()
-        updatePeople()
-       
         
+        updateUsers()
     }
     
-    private func updateNumbers() {
-        self.helper.addNumber(Int.random(in: 1...10))
+    private func updateUsers() {
+        helper.addUser(User(login: "denis123", password: "pass123", personInfo: Person(firstName: "Denis", lastName: "Raiko")))
+        helper.addUser(User(login: "ann456", password: "pass456", personInfo: Person(firstName: "Ann", lastName: "Petrova")))
         
-        for number in helper.getNumbers() {
-            print(number)
+        for user in helper.getUsers() {
+            print("\(user.personInfo.firstName) \(user.personInfo.lastName)")
         }
     }
-    
-    private func updatePeople() {
-        self.people.addPeople(["Denis", "Ann"])
-        
-        for people in people.getPeople() {
-            print(people)
-        }
-        
-    }
-
-
 }
 

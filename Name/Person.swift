@@ -7,24 +7,7 @@
 
 import Foundation
 
-protocol personProtocol {
-    var people: [String] { get }
-    func addPeople(_ people: [String])
-    func getPeople() -> [String]
-
-}
-
-public class Person: personProtocol {
-    var people: [String] = []
-    
-    func addPeople(_ people: [String]) {
-        self.people.append(contentsOf: people)
-    }
-    
-    func getPeople() -> [String] {
-        self.people
-    }
-    
-    
-    
+struct Person {
+    var firstName: String
+    var lastName: String
 }
