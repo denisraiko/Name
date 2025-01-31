@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         button.setTitle("Show FullName", for: .normal)
         button.backgroundColor = .green
         button.frame = CGRect(x: 100, y: 150, width: 150, height: 50)
-
+        button.layer.cornerRadius = 15
         return button
     }()
     
