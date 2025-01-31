@@ -15,14 +15,14 @@ class ViewController: UIViewController {
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15)
-        label.textColor = .red
+        label.textColor = .blue
         label.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
         return label
     }()
     
     private let button: UIButton = {
         let button = UIButton()
-        button.setTitle("Show FullName", for: .normal)
+        button.setTitle("Show Full Name", for: .normal)
         button.backgroundColor = .green
         button.frame = CGRect(x: 100, y: 150, width: 150, height: 50)
         button.layer.cornerRadius = 15
