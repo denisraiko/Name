@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15)
-        label.textColor = .blue
+        label.textColor = .red
         label.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
         return label
     }()
