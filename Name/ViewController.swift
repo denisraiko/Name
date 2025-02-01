@@ -29,6 +29,14 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 100, y: 300, width: 200, height: 140)
+        imageView.layer.cornerRadius = 15
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +46,7 @@ class ViewController: UIViewController {
         
         setupTextLabel(textLabel)
         setupButton(button)
+        setupImageView()
     }
     
     private func updateUsers() {
@@ -62,5 +71,11 @@ class ViewController: UIViewController {
     private func setupButton(_ button: UIButton) {
         view.addSubview(button)
     }
+    
+    private func setupImageView() {
+        view.addSubview(imageView)
+        imageView.image = UIImage(named: "dog")
+    }
+    
 }
 
