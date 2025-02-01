@@ -31,10 +31,17 @@ class ViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.frame = CGRect(x: 100, y: 300, width: 200, height: 140)
+        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 140)
         imageView.layer.cornerRadius = 15
         imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    private let imageContainerView: UIView = {
+        let view = UIView()
+        view.frame = CGRect(x: 100, y: 300, width: 200, height: 140)
+        view.layer.masksToBounds = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -47,6 +54,9 @@ class ViewController: UIViewController {
         setupTextLabel(textLabel)
         setupButton(button)
         setupImageView()
+        
+        imageContainerView.addShadow(color: .black, offset: CGSize(width: 15, height: 15), opacity: 0.5, radius: imageView.layer.cornerRadius)
+    
     }
     
     private func updateUsers() {
@@ -73,9 +83,21 @@ class ViewController: UIViewController {
     }
     
     private func setupImageView() {
-        view.addSubview(imageView)
+        view.addSubview(imageContainerView)
+        imageContainerView.addSubview(imageView)
         imageView.image = UIImage(named: "dog")
     }
     
+}
+
+extension UIView {
+    func addShadow(color: UIColor, offset: CGSize, opacity: Float, radius: CGFloat) {
+        layer.shadowColor = color.cgColor
+        layer.shadowOffset = offset
+        layer.shadowOpacity = opacity
+        layer.cornerRadius = radius
+        layer.masksToBounds = false
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
+    }
 }
 
