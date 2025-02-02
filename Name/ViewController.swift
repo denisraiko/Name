@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         label.font = .systemFont(ofSize: 15)
         label.textColor = .blue
         label.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
+        label.textAlignment = .center
         return label
     }()
     
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(named: "dog")
         imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 140)
         imageView.layer.cornerRadius = 15
         imageView.clipsToBounds = true
@@ -44,6 +46,14 @@ class ViewController: UIViewController {
         return view
     }()
     
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,8 +64,10 @@ class ViewController: UIViewController {
         setupTextLabel(textLabel)
         setupButton(button)
         setupImageView()
+        setupStackView()
+        setupLayout()
         
-        imageContainerView.addShadow(color: .black, offset: CGSize(width: 15, height: 15), opacity: 0.5, radius: imageView.layer.cornerRadius)
+        imageContainerView.addShadow(color: .black, offset: CGSize(width: 5, height: 5), opacity: 0.5, radius: imageView.layer.cornerRadius)
     
     }
     
@@ -83,9 +95,35 @@ class ViewController: UIViewController {
     }
     
     private func setupImageView() {
-        view.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
-        imageView.image = UIImage(named: "dog")
+    }
+    
+    private func setupStackView() {
+        stackView.addArrangedSubview(textLabel)
+        stackView.addArrangedSubview(button)
+        stackView.addArrangedSubview(imageContainerView)
+        view.addSubview(stackView)
+    }
+    
+    private func setupLayout() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.widthAnchor.constraint(equalToConstant: 200),
+            stackView.heightAnchor.constraint(equalToConstant: 400),
+            
+            imageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor)
+        ])
+        
+        
+        
     }
     
 }
