@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     private let shadowView = ShadowView(imageName: "dog")
     private let secondShadowView = ShadowView(imageName: "cat")
     private let thirdShadowView = ShadowView(imageName: "racoon")
-
     
+    private let firstButton = Button(buttonName: "Show New User", color: .red, isShadow: false)
+    private let secondButton = Button(buttonName: "Hide User", color: .green, isShadow: true)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,20 +57,14 @@ class ViewController: UIViewController {
         view.addSubview(textLabel)
     }
     
-    //    private func setupButton(_ button: UIButton) {
-    //        button.setTitle("Show Full Name", for: .normal)
-    //        button.backgroundColor = .green
-    //        button.frame = CGRect(x: 100, y: 150, width: 150, height: 50)
-    //        button.layer.cornerRadius = 15
-    //        view.addSubview(button)
-    //    }
-    
     private func setupStackView() {
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         
         stackView.addArrangedSubview(textLabel)
+        stackView.addArrangedSubview(firstButton)
+        stackView.addArrangedSubview(secondButton)
         stackView.addArrangedSubview(shadowView)
         stackView.addArrangedSubview(secondShadowView)
         stackView.addArrangedSubview(thirdShadowView)
@@ -95,7 +91,6 @@ class ViewController: UIViewController {
         gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
         view.layer.insertSublayer(gradient, at: 0)
     }
-    
 }
 
 
