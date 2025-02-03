@@ -12,76 +12,41 @@ class ViewController: UIViewController {
     private let helper = Helper()
     private let userRepository = UserRepository()
     
-    private let textLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
-        label.textColor = .blue
-        label.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
-        label.textAlignment = .center
-        return label
-    }()
+    private let textLabel = UILabel()
+    private let button = UIButton()
+    private let stackView = UIStackView()
     
-    private let button: UIButton = {
-        let button = UIButton()
-        button.setTitle("Show Full Name", for: .normal)
-        button.backgroundColor = .green
-        button.frame = CGRect(x: 100, y: 150, width: 150, height: 50)
-        button.layer.cornerRadius = 15
-        return button
-    }()
-    
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "dog")
-        imageView.frame = CGRect(x: 0, y: 0, width: 200, height: 140)
-        imageView.layer.cornerRadius = 15
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private let imageContainerView: UIView = {
-        let view = UIView()
-        view.frame = CGRect(x: 100, y: 300, width: 200, height: 140)
-        view.layer.masksToBounds = false
-        return view
-    }()
-    
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
+    private let shadowView = ShadowView(imageName: "dog")
+    private let secondShadowView = ShadowView(imageName: "cat")
+    private let thirdShadowView = ShadowView(imageName: "racoon")
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateUsers()
-        view.backgroundColor = .yellow
-        view.alpha = 1
-        
-        setupTextLabel(textLabel)
-        setupButton(button)
-        setupImageView()
+        addGradient()
+        setupTextLabel()
         setupStackView()
         setupLayout()
         
-        imageContainerView.addShadow(color: .black, offset: CGSize(width: 5, height: 5), opacity: 0.5, radius: imageView.layer.cornerRadius)
-    
     }
     
     private func updateUsers() {
         let users = userRepository.getUsers()
         helper.addUsers(users)
         
-        
         for user in helper.getUsers() {
             print("\(user.personInfo.firstName) \(user.personInfo.lastName)")
         }
     }
     
-    private func setupTextLabel(_ label: UILabel) {
+    private func setupTextLabel() {
+        textLabel.font = .systemFont(ofSize: 15)
+        textLabel.textColor = .blue
+        textLabel.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
+        textLabel.textAlignment = .center
+        
         guard let randomUser = helper.getUsers().randomElement() else {
             textLabel.text = "Нет пользователей"
             return
@@ -90,52 +55,47 @@ class ViewController: UIViewController {
         view.addSubview(textLabel)
     }
     
-    private func setupButton(_ button: UIButton) {
-        view.addSubview(button)
-    }
-    
-    private func setupImageView() {
-        imageContainerView.addSubview(imageView)
-    }
+    //    private func setupButton(_ button: UIButton) {
+    //        button.setTitle("Show Full Name", for: .normal)
+    //        button.backgroundColor = .green
+    //        button.frame = CGRect(x: 100, y: 150, width: 150, height: 50)
+    //        button.layer.cornerRadius = 15
+    //        view.addSubview(button)
+    //    }
     
     private func setupStackView() {
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        
         stackView.addArrangedSubview(textLabel)
-        stackView.addArrangedSubview(button)
-        stackView.addArrangedSubview(imageContainerView)
+        stackView.addArrangedSubview(shadowView)
+        stackView.addArrangedSubview(secondShadowView)
+        stackView.addArrangedSubview(thirdShadowView)
         view.addSubview(stackView)
     }
     
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.widthAnchor.constraint(equalToConstant: 200),
-            stackView.heightAnchor.constraint(equalToConstant: 400),
-            
-            imageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor)
+            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8),
         ])
-        
-        
-        
+    }
+    
+    private func addGradient() {
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.green.cgColor, UIColor.blue.cgColor]
+        gradient.opacity = 0.6
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        view.layer.insertSublayer(gradient, at: 0)
     }
     
 }
 
-extension UIView {
-    func addShadow(color: UIColor, offset: CGSize, opacity: Float, radius: CGFloat) {
-        layer.shadowColor = color.cgColor
-        layer.shadowOffset = offset
-        layer.shadowOpacity = opacity
-        layer.cornerRadius = radius
-        layer.masksToBounds = false
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
-    }
-}
 
