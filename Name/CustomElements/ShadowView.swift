@@ -27,24 +27,32 @@ class ShadowView: UIView {
         super.layoutSubviews()
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
-    
-    private func setupImageView(_ imageName: String) {
-        imageView.image = UIImage(named: imageName)
-        imageView.layer.cornerRadius = 20
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        addSubview(imageView)
-    }
-    
+}
+
+// MARK: - Setup Layout
+
+extension ShadowView {
     private func setupLayout() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+    }
+}
+
+// MARK: - Setup View
+
+extension ShadowView {
+    private func setupImageView(_ imageName: String) {
+        imageView.image = UIImage(named: imageName)
+        imageView.layer.cornerRadius = 20
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        addSubview(imageView)
     }
     
     private func setupView() {
@@ -55,3 +63,4 @@ class ShadowView: UIView {
         layer.shadowRadius = 10
     }
 }
+

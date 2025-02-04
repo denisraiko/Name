@@ -18,7 +18,6 @@ class Button: UIButton {
         if isShadow {
             setupShadow()
         }
-        
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +28,26 @@ class Button: UIButton {
         super.layoutSubviews()
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
-    
+}
+
+// MARK: - Setup Layout
+
+extension Button {
+    private func setupLayout() {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: topAnchor),
+            bottomAnchor.constraint(equalTo: bottomAnchor),
+            leadingAnchor.constraint(equalTo: leadingAnchor),
+            trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+}
+
+// MARK: - Setup View
+
+extension Button {
     private func setupButton(buttonName: String, color: UIColor, isShadow: Bool) {
         setTitle(buttonName, for: .normal)
         backgroundColor = color
@@ -43,16 +61,5 @@ class Button: UIButton {
         layer.borderColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 10, height: 10)
         layer.shadowOpacity = 0.7
-    }
-    
-    private func setupLayout() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: topAnchor),
-            bottomAnchor.constraint(equalTo: bottomAnchor),
-            leadingAnchor.constraint(equalTo: leadingAnchor),
-            trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
     }
 }

@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     private let button = UIButton()
     private let stackView = UIStackView()
     
-    private let shadowView = ShadowView(imageName: ShadowViewType.dog.rawValue)
+    private let firstShadowView = ShadowView(imageName: ShadowViewType.dog.rawValue)
     private let secondShadowView = ShadowView(imageName: ShadowViewType.cat.rawValue)
     private let thirdShadowView = ShadowView(imageName: ShadowViewType.racoon.rawValue)
     
@@ -28,10 +28,10 @@ class ViewController: UIViewController {
         
         updateUsers()
         view.addGradient()
+        view.addViews(views: [textLabel, stackView])
         setupTextLabel()
         setupStackView()
         setupLayout()
-        
     }
     
     private func updateUsers() {
@@ -68,7 +68,6 @@ extension ViewController {
             return
         }
         textLabel.text = "\(randomUser.personInfo.firstName) \(randomUser.personInfo.lastName)"
-        view.addSubview(textLabel)
     }
     
     private func setupStackView() {
@@ -76,13 +75,9 @@ extension ViewController {
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         
-        stackView.addArrangedSubview(textLabel)
         stackView.addArrangedSubview(firstButton)
         stackView.addArrangedSubview(secondButton)
-        stackView.addArrangedSubview(shadowView)
-        stackView.addArrangedSubview(secondShadowView)
-        stackView.addArrangedSubview(thirdShadowView)
-        view.addSubview(stackView)
+        stackView.addSubview(views: firstShadowView, secondShadowView, thirdShadowView)
     }
 }
 
@@ -91,12 +86,17 @@ extension ViewController {
 extension ViewController {
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textLabel.heightAnchor.constraint(equalToConstant: 30),
+
+            stackView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8),
+            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
         ])
     }
 }
