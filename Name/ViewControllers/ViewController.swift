@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+ 
     private let helper = Helper()
     private let userRepository = UserRepository()
     
@@ -16,22 +16,22 @@ class ViewController: UIViewController {
     private let button = UIButton()
     private let stackView = UIStackView()
     
-    private let shadowView = ShadowView(imageName: "dog")
-    private let secondShadowView = ShadowView(imageName: "cat")
-    private let thirdShadowView = ShadowView(imageName: "racoon")
+    private let firstShadowView = ShadowView(imageName: ShadowViewType.dog.rawValue)
+    private let secondShadowView = ShadowView(imageName: ShadowViewType.cat.rawValue)
+    private let thirdShadowView = ShadowView(imageName: ShadowViewType.racoon.rawValue)
     
     private let firstButton = Button(buttonName: "Show New User", color: .red, isShadow: false)
     private let secondButton = Button(buttonName: "Hide User", color: .green, isShadow: true)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateUsers()
-        addGradient()
+        view.addGradient()
+        view.addViews(views: [textLabel, stackView])
         setupTextLabel()
         setupStackView()
         setupLayout()
-        
     }
     
     private func updateUsers() {
@@ -42,7 +42,21 @@ class ViewController: UIViewController {
             print("\(user.personInfo.firstName) \(user.personInfo.lastName)")
         }
     }
-    
+}
+
+// MARK: - Nested Types
+
+extension ViewController {
+    enum ShadowViewType: String {
+        case dog = "dog"
+        case cat = "cat"
+        case racoon = "racoon"
+    }
+}
+
+// MARK: - Setup View
+
+extension ViewController {
     private func setupTextLabel() {
         textLabel.font = .systemFont(ofSize: 15)
         textLabel.textColor = .blue
@@ -54,7 +68,6 @@ class ViewController: UIViewController {
             return
         }
         textLabel.text = "\(randomUser.personInfo.firstName) \(randomUser.personInfo.lastName)"
-        view.addSubview(textLabel)
     }
     
     private func setupStackView() {
@@ -62,35 +75,28 @@ class ViewController: UIViewController {
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         
-        stackView.addArrangedSubview(textLabel)
         stackView.addArrangedSubview(firstButton)
         stackView.addArrangedSubview(secondButton)
-        stackView.addArrangedSubview(shadowView)
-        stackView.addArrangedSubview(secondShadowView)
-        stackView.addArrangedSubview(thirdShadowView)
-        view.addSubview(stackView)
-    }
-    
-    private func setupLayout() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8),
-        ])
-    }
-    
-    private func addGradient() {
-        let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.green.cgColor, UIColor.blue.cgColor]
-        gradient.opacity = 0.6
-        gradient.startPoint = CGPoint(x: 0, y: 0)
-        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
-        view.layer.insertSublayer(gradient, at: 0)
+        stackView.addSubview(views: firstShadowView, secondShadowView, thirdShadowView)
     }
 }
 
+// MARK: - Setup Layout
 
+extension ViewController {
+    private func setupLayout() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textLabel.heightAnchor.constraint(equalToConstant: 30),
+
+            stackView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
+        ])
+    }
+}
