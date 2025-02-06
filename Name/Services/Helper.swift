@@ -8,7 +8,7 @@
 import Foundation
 
 class Helper {
-    var users: [User] = []
+    private var users: [User] = []
     
     func addUser(_ user: User) {
         self.users.append(user)
@@ -20,5 +20,20 @@ class Helper {
     
     func getUsers() -> [User] {
         return users
+    }
+    
+    
+    private var number: [Int] = []
+    
+    func addNumber(_ number: Int) {
+        self.number.append(number)
+    }
+    
+    func getNumbers() -> [Int] {
+        return number
+    }
+    
+    func getRandomNumber() -> Int {
+        number.randomElement() ?? 0
     }
 }

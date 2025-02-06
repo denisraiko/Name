@@ -27,6 +27,10 @@ class ShadowView: UIView {
         super.layoutSubviews()
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
+    
+    func updateImage(_ imageName: String) {
+        imageView.image = UIImage(named: imageName)
+    }
 }
 
 // MARK: - Setup Layout
