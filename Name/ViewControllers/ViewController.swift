@@ -17,11 +17,14 @@ class ViewController: UIViewController {
     private let stackView = UIStackView()
     
     private let firstShadowView = ShadowView(imageName: ShadowViewType.dog.rawValue)
-    private let secondShadowView = ShadowView(imageName: ShadowViewType.cat.rawValue)
-    private let thirdShadowView = ShadowView(imageName: ShadowViewType.racoon.rawValue)
+//    private let secondShadowView = ShadowView(imageName: ShadowViewType.cat.rawValue)
+//    private let thirdShadowView = ShadowView(imageName: ShadowViewType.racoon.rawValue)
     
-    private let firstButton = Button(buttonName: "Show New User", color: .red, isShadow: false)
-    private let secondButton = Button(buttonName: "Hide User", color: .green, isShadow: true)
+    private let numberButton = Button(buttonName: "Change Number", color: .red, isShadow: true)
+    private let imageButton = Button(buttonName: "Change Image", color: .green, isShadow: true)
+    
+    private let showUserButton = Button(buttonName: "Show New User", color: .cyan, isShadow: false)
+    private let hideUserButton = Button(buttonName: "Hide User", color: .blue, isShadow: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,8 @@ class ViewController: UIViewController {
         setupTextLabel()
         setupStackView()
         setupLayout()
+        addAction()
+        addActionForUserLabel()
     }
     
     private func updateUsers() {
@@ -41,6 +46,15 @@ class ViewController: UIViewController {
         for user in helper.getUsers() {
             print("\(user.personInfo.firstName) \(user.personInfo.lastName)")
         }
+    }
+    
+    private func updateNumbers() {
+        helper.addNumber(Int.random(in: 1...10))
+    }
+    
+    @objc func numberButtonTapped() {
+        updateNumbers()
+        textLabel.text = helper.getRandomNumber().formatted()
     }
 }
 
@@ -62,23 +76,44 @@ extension ViewController {
         textLabel.textColor = .blue
         textLabel.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
         textLabel.textAlignment = .center
-        
-        guard let randomUser = helper.getUsers().randomElement() else {
-            textLabel.text = "Нет пользователей"
-            return
-        }
-        textLabel.text = "\(randomUser.personInfo.firstName) \(randomUser.personInfo.lastName)"
     }
     
     private func setupStackView() {
         stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
+        stackView.spacing = 20
+        stackView.distribution = .equalSpacing
         
-        stackView.addArrangedSubview(firstButton)
-        stackView.addArrangedSubview(secondButton)
-        stackView.addSubview(views: firstShadowView, secondShadowView, thirdShadowView)
+        stackView.addSubview(views: textLabel, firstShadowView, numberButton, imageButton, showUserButton, hideUserButton)
     }
+    
+    private func addAction() {
+        numberButton.addTarget(self,
+                               action: #selector(numberButtonTapped),
+                               for: .touchUpInside)
+        let action = UIAction { _ in
+            let randomImage = [ShadowViewType.cat, ShadowViewType.dog, ShadowViewType.racoon].randomElement()
+            self.firstShadowView.updateImage(randomImage?.rawValue ?? ShadowViewType.racoon.rawValue)
+        }
+        imageButton.addAction(action, for: .touchUpInside)
+    }
+    
+    private func addActionForUserLabel() {
+        let action = UIAction { _ in
+            guard let randomUser = self.helper.getUsers().randomElement() else {
+                self.textLabel.text = "Нет пользователей"
+                return
+            }
+            self.textLabel.text = "\(randomUser.personInfo.firstName) \(randomUser.personInfo.lastName)"
+        }
+        showUserButton.addAction(action, for: .touchUpInside)
+        
+        let hideAction = UIAction { _ in
+            self.textLabel.text = ""
+        }
+        hideUserButton.addAction(hideAction, for: .touchUpInside)
+    }
+    
+    
 }
 
 // MARK: - Setup Layout
@@ -96,7 +131,8 @@ extension ViewController {
             stackView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-            stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5)
+            
+            firstShadowView.heightAnchor.constraint(equalTo: stackView.widthAnchor)
         ])
     }
 }

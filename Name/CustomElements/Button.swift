@@ -50,9 +50,10 @@ extension Button {
 extension Button {
     private func setupButton(buttonName: String, color: UIColor, isShadow: Bool) {
         setTitle(buttonName, for: .normal)
+        setTitleColor(.white, for: .normal)
         backgroundColor = color
-        frame = CGRect(x: 100, y: 150, width: 150, height: 50)
-        layer.cornerRadius = 15
+        layer.cornerRadius = 10
+        heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     private func setupShadow() {
