@@ -7,8 +7,19 @@
 
 import Foundation
 
-class Helper {
+protocol NumberManageable {
+    func addUser(_ user: User)
+    func addUsers(_ users: [User])
+    func getUsers() -> [User]
+    
+    func addNumber(_ number: Int)
+    func getNumbers() -> [Int]
+    func getRandomNumber() -> Int
+}
+
+class Helper: NumberManageable {
     private var users: [User] = []
+    private var number: [Int] = []
     
     func addUser(_ user: User) {
         self.users.append(user)
@@ -21,9 +32,6 @@ class Helper {
     func getUsers() -> [User] {
         return users
     }
-    
-    
-    private var number: [Int] = []
     
     func addNumber(_ number: Int) {
         self.number.append(number)
