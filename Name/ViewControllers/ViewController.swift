@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
  
-    private let helper = Helper()
+    private let helper: NumberManageable = Helper()
     private let userRepository = UserRepository()
     
     private let textLabel = UILabel()
